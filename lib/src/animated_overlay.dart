@@ -8,9 +8,10 @@ class AnimatedOverlay extends StatefulWidget {
     this.overlayAnchor = Alignment.topLeft,
     this.childAnchor = Alignment.topRight,
     this.offset = Offset.zero,
-    this.scaleAnimationAlignment = Alignment.center,
+    Alignment? scaleAnimationAlignment,
     Key? key,
-  }) : super(key: key);
+  })  : scaleAnimationAlignment = scaleAnimationAlignment ?? overlayAnchor,
+        super(key: key);
 
   final OverlayController controller;
   final Widget overlay;
