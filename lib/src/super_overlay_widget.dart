@@ -126,6 +126,7 @@ class OverlayController<T> {
     _showOverlay.value = true;
   }
 
+  // TODO: change to remove
   remove() {
     _showOverlay.value = false;
   }
