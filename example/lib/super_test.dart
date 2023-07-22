@@ -14,7 +14,7 @@ class _SuperTestViewState extends State<SuperTestView> {
   OverlayEntry? overlayEntry;
   final _layerLink = LayerLink();
 
-  final overlayController = OverlayController<String>();
+  final overlayController = OverlayController();
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +59,12 @@ class _SuperTestViewState extends State<SuperTestView> {
               ],
             ),
             const SizedBox(height: 100),
-            SuperOverlay<String>(
+            AnimatedOverlay(
               offset: const Offset(0, 30),
               childAnchor: Alignment.bottomCenter,
               overlayAnchor: Alignment.topCenter,
               controller: overlayController,
-              overlay: (context, value) => Container(
+              overlay: Container(
                 height: 200,
                 width: 200,
                 color: Colors.red,
