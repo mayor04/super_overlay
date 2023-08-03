@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:super_overlay/src/animated_overlay_scope.dart';
 
 class AnimatedOverlay extends StatefulWidget {
   const AnimatedOverlay({
@@ -90,30 +91,33 @@ class _AnimatedOverlayState extends State<AnimatedOverlay> with SingleTickerProv
 
     overlayEntry ??= OverlayEntry(
       builder: (_) {
-        return MouseRegion(
-          opaque: false,
-          hitTestBehavior: HitTestBehavior.translucent,
-          child: GestureDetector(
-            onTap: widget.controller.close,
-            behavior: HitTestBehavior.translucent,
-            child: Container(
-              color: Colors.transparent,
-              child: CompositedTransformFollower(
-                link: _layerLink,
-                offset: widget.offset,
-                targetAnchor: widget.childAnchor,
-                followerAnchor: widget.overlayAnchor,
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Align(
-                    alignment: widget.overlayAnchor,
-                    child: ScaleTransition(
-                      alignment: widget.scaleAnimationAlignment,
-                      scale: Tween<double>(begin: 0.75, end: 1).animate(CurvedAnimation(
-                        parent: popController,
-                        curve: Curves.easeOut,
-                      )),
-                      child: widget.overlay,
+        return OverlayScope(
+          controller: widget.controller,
+          child: MouseRegion(
+            opaque: false,
+            hitTestBehavior: HitTestBehavior.translucent,
+            child: GestureDetector(
+              onTap: widget.controller.close,
+              behavior: HitTestBehavior.translucent,
+              child: Container(
+                color: Colors.transparent,
+                child: CompositedTransformFollower(
+                  link: _layerLink,
+                  offset: widget.offset,
+                  targetAnchor: widget.childAnchor,
+                  followerAnchor: widget.overlayAnchor,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Align(
+                      alignment: widget.overlayAnchor,
+                      child: ScaleTransition(
+                        alignment: widget.scaleAnimationAlignment,
+                        scale: Tween<double>(begin: 0.75, end: 1).animate(CurvedAnimation(
+                          parent: popController,
+                          curve: Curves.easeOut,
+                        )),
+                        child: widget.overlay,
+                      ),
                     ),
                   ),
                 ),
