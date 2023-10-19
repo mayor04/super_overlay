@@ -9,6 +9,7 @@ class AnimatedOverlay extends StatefulWidget {
     this.overlayAnchor = Alignment.topLeft,
     this.childAnchor = Alignment.topRight,
     this.offset = Offset.zero,
+    this.behavior = HitTestBehavior.translucent,
     Alignment? scaleAnimationAlignment,
     Key? key,
   })  : scaleAnimationAlignment = scaleAnimationAlignment ?? overlayAnchor,
@@ -29,6 +30,7 @@ class AnimatedOverlay extends StatefulWidget {
   final Alignment childAnchor;
   final Offset offset;
   final Alignment scaleAnimationAlignment;
+  final HitTestBehavior behavior;
 
   @override
   State<AnimatedOverlay> createState() => _AnimatedOverlayState();
@@ -96,11 +98,11 @@ class _AnimatedOverlayState extends State<AnimatedOverlay> with SingleTickerProv
         return OverlayScope(
           controller: widget.controller,
           child: MouseRegion(
-            opaque: false,
-            hitTestBehavior: HitTestBehavior.translucent,
+            opaque: widget.behavior == HitTestBehavior.opaque ? true : false,
+            hitTestBehavior: widget.behavior,
             child: GestureDetector(
               onTap: widget.controller.close,
-              behavior: HitTestBehavior.translucent,
+              behavior: widget.behavior,
               child: Container(
                 color: Colors.transparent,
                 child: CompositedTransformFollower(
