@@ -77,10 +77,12 @@ class _AnimatedOverlayState extends State<AnimatedOverlay> with SingleTickerProv
   }
 
   Future<void> closeOverlay() async {
-    popController.reverse();
+    if (widget.controller.useAnimation) {
+      popController.reverse();
 
-    // wait for the animation
-    await Future.delayed(const Duration(milliseconds: 170));
+      // wait for the animation
+      await Future.delayed(const Duration(milliseconds: 170));
+    }
     overlayEntry?.remove();
     overlayEntry = null;
   }
@@ -141,7 +143,9 @@ class _AnimatedOverlayState extends State<AnimatedOverlay> with SingleTickerProv
 
   @override
   void dispose() {
+    widget.controller.close(useAnimation: false);
     popController.dispose();
+
     widget.controller.removeListener(menuListener);
 
     super.dispose();
@@ -150,11 +154,15 @@ class _AnimatedOverlayState extends State<AnimatedOverlay> with SingleTickerProv
 
 class OverlayController extends ValueNotifier<bool> {
   OverlayController({bool isOpen = false}) : super(isOpen);
+  bool useAnimation = true;
 
   bool get isOpen => value;
 
   void open() => value = true;
-  void close() => value = false;
+  void close({bool useAnimation = true}) {
+    this.useAnimation = useAnimation;
+    value = false;
+  }
 
   void toggle() => value = !value;
 }
